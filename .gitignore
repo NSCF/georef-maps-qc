@@ -1,0 +1,8 @@
+.vscode
+*.csv
+*.png
+*.jpg
+
+maps
+mapsold
+testmaps
