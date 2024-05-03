@@ -11,13 +11,14 @@ from progress.bar import Bar
 
 csv_name = 'AcocksExport20240426_OR.csv'
 maps_dir = 'maps'
+datefield = 'Date'
 
 ### SCRIPT ###
 
 # Read the CSV file with points
 print('reading csv data')
 points_df = pd.read_csv(csv_name)
-uniquedates = list(set(points_df['Date']))
+uniquedates = list(set(points_df[datefield]))
 validuniquedates = list(filter(lambda x: isinstance(x, str) and r'/' in x and len(x.split('/')) == 3, uniquedates))
 fixeddates = list(map(lambda x: str(datetime.strptime(x, '%m/%d/%Y')).split(' ')[0], validuniquedates))
 fixeddates.sort()
@@ -29,8 +30,8 @@ searchdates = fixeddates[firstdateindex : lastdateindex]
 print('fixing dates')
 points_df['FormattedDate'] = None
 for index, row in points_df.iterrows():
-  if isinstance(row['Date'], str) and r'/' in row['Date'] and len(row['Date'].split('/')) == 3:
-    points_df.at[index, 'FormattedDate'] = str(datetime.strptime(row['Date'], '%m/%d/%Y')).split(' ')[0]
+  if isinstance(row[datefield], str) and r'/' in row[datefield] and len(row[datefield].split('/')) == 3:
+    points_df.at[index, 'FormattedDate'] = str(datetime.strptime(row[datefield], '%m/%d/%Y')).split(' ')[0]
 
 # if we only want to create the plots to save to file, and not display on screen:
 plt.ioff()
